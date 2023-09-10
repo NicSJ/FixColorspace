@@ -98,7 +98,7 @@ class FixColorSpace_OT_ACES(FixColorSpaceBase, Operator):
 
 
 class FixColorSpace_PT_Panel(Panel):
-    bl_label = "Fix Colorspace"
+    bl_label = "Fix Color Space"
     bl_idname = "FixColorSpace_PT_Panel"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
@@ -106,6 +106,7 @@ class FixColorSpace_PT_Panel(Panel):
 
     def draw(self, context):
         layout = self.layout
+        
         # Only display the relevant buttons, based on the current Color Management - Display Device
         if bpy.context.scene.display_settings.display_device == 'ACES':
             layout.operator("scene.apply_aces_colorspace", text="To ACES")
@@ -127,6 +128,3 @@ def unregister():
     for cls in reversed(classes):
         bpy.utils.unregister_class(cls)
 
-# Only needed if running from text editor. Remove if installing as an addon.
-if __name__ == "__main__":
-    register()
