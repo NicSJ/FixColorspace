@@ -59,17 +59,6 @@ class FixColorSpaceBase:
                 image.colorspace_settings.name = self.non_color_space
                 break
                 
-                
-    # def set_color_space(self, image:Image):
-        # """Set the color space of an image based on its name."""
-        # has_keyword = False
-        # for keyword in KEYWORDS:
-            # if keyword in image.name.lower():
-                # image.colorspace_settings.name = self.non_color_space
-                # has_keyword = True
-                # break
-            # if not has_keyword:
-                # image.colorspace_settings.name = self.color_space
     
     def find_image_nodes(self, node_tree: ShaderNodeTree):
         """Find all image nodes in a node tree and set their color space. If a group node is found explore its node tree recursively."""
