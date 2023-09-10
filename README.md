@@ -1,2 +1,2 @@
 # FixColorspace
-Blender addon to automate colorspace assignments of image textures
+A Blender addon that changes the color space of image nodes based on specific image keywords
