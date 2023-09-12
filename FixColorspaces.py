@@ -19,8 +19,10 @@
 bl_info = {
     "name": "Fix ColorSpace",
     "author": "ChatGPT / Blender Bob / True-VFX / NicSJ",
-    "blender": (2, 80, 0),
     "description": "Changes the color space of image nodes based on specific image names.",
+    "blender": (2, 80, 0),
+    "version": (1, 0, 1),
+    "location": "View3D > Sidebar > Tool",
     "category": "Material",
 }
 
@@ -99,7 +101,7 @@ class FixColorSpace_OT_ACES(FixColorSpaceBase, Operator):
 
 class FixColorSpace_PT_Panel(Panel):
     bl_label = "Fix Color Space"
-    bl_idname = "FixColorSpace_PT_Panel"
+    bl_idname = "FIXCOLORSPACE_PT_Panel"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
     bl_category = "Tool"
@@ -111,7 +113,7 @@ class FixColorSpace_PT_Panel(Panel):
         if bpy.context.scene.display_settings.display_device == 'ACES':
             layout.operator("scene.apply_aces_colorspace", text="To ACES")
         else:
-            layout.operator("scene.apply_filmic_colorspace", text="To Filmic")
+            layout.operator("scene.apply_filmic_colorspace", text="To Filmic/AgX")
 
 classes = (
     FixColorSpace_OT_Filmic,
