@@ -14,4 +14,7 @@ Extended from the original file posted by **Blender Bob** [Free Color space addo
 
 ## Installation
 Download the latest version from the Releases section. Open Blender -> _Edit -> Preferences -> Add-ons -> Install..._
-Navigate to the location of the .zip that was downoaded. Makes sure the enable checkbox is ticked. In the 3D viewport press N and select the Tool tab. Scroll down untill you find **Fix Color Space**.
+Navigate to the location of the .zip that was downoaded. Makes sure the enable checkbox is ticked. In the 3D viewport press N and select the Tool tab. Scroll down untill you find **Fix Color Space**. Alternatively, you can find the Tool tab in the Properties panel (above the Render tab).
+
+![Addon in side panel](/resources/SidePanel.png)
+![Addon in properties panel](/resources/PropertiesPanel.png)
