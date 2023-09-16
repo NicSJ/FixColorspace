@@ -8,7 +8,7 @@ Extended from the original file posted by **Blender Bob** [Free Color space addo
 - Filmic/AgX = Non-Color  
 - Aces = "Utility - Raw"
 
-**Rest:**  
+**Color images:**  
 - Filmic/AgX = "sRGB"  
 - Aces = "Utility - sRGB - Texture"  
 
