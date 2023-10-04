@@ -7,10 +7,12 @@ Extended from the original file posted by **Blender Bob** [Free Color space addo
 **Non-color image types:**
 - Filmic/AgX = Non-Color  
 - Aces = "Utility - Raw"
+- Aces2 = "Raw"
 
 **Color images:**  
 - Filmic/AgX = "sRGB"  
-- Aces = "Utility - sRGB - Texture"  
+- Aces = "Utility - sRGB - Texture"
+- Aces2 = "sRGB - Texture"  
 
 ## Installation
 Download the latest version from the Releases section. Open Blender -> _Edit -> Preferences -> Add-ons -> Install..._
