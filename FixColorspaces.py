@@ -21,7 +21,7 @@ bl_info = {
     "author": "ChatGPT / Blender Bob / True-VFX / NicSJ",
     "description": "Changes the color space of image nodes based on specific image names.",
     "blender": (2, 80, 0),
-    "version": (1, 0, 1),
+    "version": (1, 0, 3),
     "location": "View3D > Sidebar > Tool",
     "category": "Material",
 }
@@ -98,26 +98,38 @@ class FixColorSpace_OT_ACES(FixColorSpaceBase, Operator):
     color_space = 'Utility - sRGB - Texture'
     non_color_space = 'Utility - Raw'
 
+class FixColorSpace_OT_ACESTWO(FixColorSpaceBase, Operator):
+    bl_idname = "scene.apply_aces_colorspace_new"
+    bl_label = "ACES 2"
+
+    color_space = 'sRGB - Texture'
+    non_color_space = 'Raw'
 
 class FixColorSpace_PT_Panel(Panel):
-    bl_label = "Fix Color Space"
     bl_idname = "FIXCOLORSPACE_PT_Panel"
+    bl_label = "Fix Color Space"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
-    bl_category = "Tool"
+    bl_category = "Tool"  # change Tool to any custom name if you want a new tab
+    bl_context = "objectmode"
 
     def draw(self, context):
         layout = self.layout
         
-        # Only display the relevant buttons, based on the current Color Management - Display Device
+        # Only display the relevant buttons, based on the current Color Management
+        # ACES 1 config files - up to 1.3
         if bpy.context.scene.display_settings.display_device == 'ACES':
             layout.operator("scene.apply_aces_colorspace", text="To ACES")
+        # ACES 2 config files - no longer need luts (OCIO 2+)
+        elif bpy.context.scene.view_settings.view_transform.startswith('ACES'):
+            layout.operator("scene.apply_aces_colorspace_new", text="To ACES 2")
         else:
             layout.operator("scene.apply_filmic_colorspace", text="To Filmic/AgX")
 
 classes = (
     FixColorSpace_OT_Filmic,
     FixColorSpace_OT_ACES,
+    FixColorSpace_OT_ACESTWO,
     FixColorSpace_PT_Panel,
 )
 
@@ -130,3 +142,6 @@ def unregister():
     for cls in reversed(classes):
         bpy.utils.unregister_class(cls)
 
+# Only needed if running from text editor. Remove if installing as an addon.
+# if __name__ == "__main__":
+    # register()
