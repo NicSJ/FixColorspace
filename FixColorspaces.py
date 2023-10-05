@@ -21,7 +21,7 @@ bl_info = {
     "author": "ChatGPT / Blender Bob / True-VFX / NicSJ",
     "description": "Changes the color space of image nodes based on specific image names.",
     "blender": (2, 80, 0),
-    "version": (1, 0, 3),
+    "version": (1, 1, 0),
     "location": "View3D > Sidebar > Tool",
     "category": "Material",
 }
@@ -45,14 +45,16 @@ KEYWORDS = (
     'curvature', 'curv'
 )
 
-
+# main class
 class FixColorSpaceBase:
     bl_options = {'REGISTER', 'UNDO'}
 
-    # Must replace these with the color space names you want to use
+    # replace these with the color space names you want to use
     color_space:str
     non_color_space:str
+    env_color_space:str
 
+    # assign color space based on image texture name
     def set_color_space(self, image:Image):
         """Set the color space of an image based on its name."""
         image.colorspace_settings.name = self.color_space
@@ -60,23 +62,25 @@ class FixColorSpaceBase:
             if keyword in image.name.lower():
                 image.colorspace_settings.name = self.non_color_space
                 break
-                
-    
+                   
+    # recursively search for image textures
     def find_image_nodes(self, node_tree: ShaderNodeTree):
         """Find all image nodes in a node tree and set their color space. If a group node is found explore its node tree recursively."""
         for node in node_tree.nodes:
             if node.type == 'TEX_IMAGE' and node.image:
                 self.set_color_space(node.image)
+            elif node.type == 'TEX_ENVIRONMENT':
+                node.image.colorspace_settings.name = self.env_color_space
             elif node.type == 'GROUP':
                 self.find_image_nodes(node.node_tree)
 
     def execute(self, _context):
-        # Set color space for images in all materials
+        # set color space for images in all materials
         for material in bpy.data.materials:
             if material.node_tree:
                 self.find_image_nodes(material.node_tree)
         
-        # Set color space for images in all worlds
+        # set color space for images in all worlds
         for world in bpy.data.worlds:
             if world.node_tree:
                 self.find_image_nodes(world.node_tree)
@@ -84,27 +88,37 @@ class FixColorSpaceBase:
         return {'FINISHED'}
 
 
+# button functionality for defualt color spaces
 class FixColorSpace_OT_Filmic(FixColorSpaceBase, Operator):
     bl_idname = "scene.apply_filmic_colorspace"
     bl_label = "Filmic"
 
     color_space = 'sRGB'
-    non_color_space = 'Non-Color' # old 'Raw'
+    non_color_space = 'Non-Color'
+    if bpy.app.version_string < '4.0.0':
+        env_color_space = 'Linear'
+    else:
+        env_color_space = 'Linear Rec.709'
 
+# button functionality for OCIO v1 ACES config
 class FixColorSpace_OT_ACES(FixColorSpaceBase, Operator):
     bl_idname = "scene.apply_aces_colorspace"
     bl_label = "ACES"
 
     color_space = 'Utility - sRGB - Texture'
     non_color_space = 'Utility - Raw'
+    env_color_space = 'Utility - Linear - Rec.709'
 
+# button functionality for OCIO v2 ACES config
 class FixColorSpace_OT_ACESTWO(FixColorSpaceBase, Operator):
     bl_idname = "scene.apply_aces_colorspace_new"
     bl_label = "ACES 2"
 
     color_space = 'sRGB - Texture'
     non_color_space = 'Raw'
+    env_color_space = 'Linear Rec.709 (sRGB)'
 
+# main panel that the user interacts with
 class FixColorSpace_PT_Panel(Panel):
     bl_idname = "FIXCOLORSPACE_PT_Panel"
     bl_label = "Fix Color Space"
@@ -115,16 +129,18 @@ class FixColorSpace_PT_Panel(Panel):
 
     def draw(self, context):
         layout = self.layout
+        scene = context.scene
         
-        # Only display the relevant buttons, based on the current Color Management
-        # ACES 1 config files - up to 1.3
-        if bpy.context.scene.display_settings.display_device == 'ACES':
+        # only display the relevant button, based on the current Color Management (ACES/Filmic/AgX)
+        # ACES 1 config files - up to 1.3 (OCIO 1)
+        if scene.display_settings.display_device == 'ACES':
             layout.operator("scene.apply_aces_colorspace", text="To ACES")
         # ACES 2 config files - no longer need luts (OCIO 2+)
-        elif bpy.context.scene.view_settings.view_transform.startswith('ACES'):
+        elif scene.view_settings.view_transform.startswith('ACES'):
             layout.operator("scene.apply_aces_colorspace_new", text="To ACES 2")
         else:
             layout.operator("scene.apply_filmic_colorspace", text="To Filmic/AgX")
+        
 
 classes = (
     FixColorSpace_OT_Filmic,
@@ -136,7 +152,6 @@ classes = (
 def register():
     for cls in classes:
         bpy.utils.register_class(cls)
-
 
 def unregister():
     for cls in reversed(classes):
