@@ -4,15 +4,20 @@ Blender addon that changes the color space of material image nodes based on spec
 Extended from the original file posted by **Blender Bob** [Free Color space addon for Blender](https://www.youtube.com/watch?v=73Y_5LrDZQc&t=1s&ab_channel=BlenderBob)
 
 ## Conversion defaults
-**Non-color image types:**
-- Filmic/AgX = Non-Color  
-- Aces = "Utility - Raw"
-- Aces2 = "Raw"
+**Filmic/AgX:**
+- Color images = "sRGB"
+- Non-color images = "Non-Color"
+- Environment images = "Linear" (Blender <= 3.6) / "Linear Rec.709" (Blender 4.0+)
 
-**Color images:**  
-- Filmic/AgX = "sRGB"  
-- Aces = "Utility - sRGB - Texture"
-- Aces2 = "sRGB - Texture"  
+**ACES (OCIO v1)**
+- Color images = "Utility - sRGB - Texture"
+- Non-color images = "Utility - Raw"
+- Environment images = "Utility - Linear - Rec.709" 
+
+**ACES 2 (OCIO v2)**  
+- Color images = "sRGB - Texture"
+- Non-color images = "Raw"
+- Environment images = "Linear Rec.709 (sRGB)" 
 
 ## Installation
 Download the latest version from the Releases section. Open Blender -> _Edit -> Preferences -> Add-ons -> Install..._
