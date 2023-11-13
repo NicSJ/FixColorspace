@@ -30,6 +30,8 @@ or View Transform (Aces config v2 - will have a list of 4 names, 2 starting with
 
 If you don't see either of these options, you are most likely using default Blender and won't see the Aces buttons.  
 
+___  
+
 **Q: How do I get the Aces options to show up?**  
 
 A: One option would be to start Blender with a OCIO config file. The following will work on for Windows. Create a text file and name it anything you like. Paste one of the following examples into the file and change the paths to the appropriate locations. Change the file extension from .txt to .bat. Double-click the batch file when you need to run Blender in Aces mode.
@@ -44,7 +46,10 @@ start "BLENDER 4.0" "C:\BlenderBuilds\bl_symlink\blender.exe"
 REM ACES v2
 set "OCIO=G:\OpenColorIO-Configs\aces_2\v2\studio-config-v2.0.0_aces-v1.3_ocio-v2.2.ocio"
 start "BLENDER 4.0" "C:\BlenderBuilds\bl_symlink\blender.exe"
-```
+```  
+
+For more information or Mac scripts, check [Blender & ACES 1.2/1.3 OCIO v1](https://www.toodee.de/?page_id=1720)  [Blender & ACES OCIO v2](https://www.toodee.de/?page_id=5517)  
+___  
 
 **Q: Why is the color space of the image texture not converting correctly?**  
 
@@ -62,6 +67,4 @@ A: The addon looks for the following keywords in the image file name:
     'transmission', 'thickness',
     'curvature', 'curv'  
 
-If a keyword is found, the color space will be changed to a raw/non-color variant. If none are found, the color space will be changed to a variant of sRGB. For variations, refer to Conversion defaults above. Textures from sites such as [Polyhaven](https://polyhaven.com/), or generated with Substance 3D Painter, have the keywords in the file names and should work as expected. If you are naming files manually, be sure to add the appropriate keyword to the file. E.g. Bronze_damaged_normal.png
-
-  
+If a keyword is found, the color space will be changed to a raw/non-color variant. If none are found, the color space will be changed to a variant of sRGB. For variations, refer to Conversion defaults above. Textures from sites such as [Polyhaven](https://polyhaven.com/), or generated with Substance 3D Painter, have the keywords in the file names and should work as expected. If you are naming files manually, be sure to add the appropriate keyword to the file. E.g. Bronze_damaged_normal.png  
