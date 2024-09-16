@@ -66,6 +66,6 @@ A: The addon looks for the following keywords in the image file name:
     'transparency', 'opacity', 'alpha',
     'transmission', 'thickness',
     'curvature', 'curv',
-    '_arm_', '_orm_'
+    '\_arm_', '\_orm_'
 
 If a keyword is found, the color space will be changed to a raw/non-color variant. If none are found, the color space will be changed to a variant of sRGB. For variations, refer to Conversion defaults above. Textures from sites such as [Polyhaven](https://polyhaven.com/), or generated with Substance 3D Painter, have the keywords in the file names and should work as expected. If you are naming files manually, be sure to add the appropriate keyword to the file. E.g. Bronze_damaged_normal.png  
