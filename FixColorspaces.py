@@ -21,7 +21,7 @@ bl_info = {
     "author": "ChatGPT / Blender Bob / True-VFX / NicSJ",
     "description": "Changes the color space of image nodes based on specific image names.",
     "blender": (2, 80, 0),
-    "version": (1, 1, 0),
+    "version": (1, 2, 0),
     "location": "View3D > Sidebar > Tool",
     "category": "Material",
 }
@@ -42,7 +42,8 @@ KEYWORDS = (
     'sss', 'subsurface',
     'transparency', 'opacity', 'alpha',
     'transmission', 'thickness',
-    'curvature', 'curv'
+    'curvature', 'curv',
+    '_arm_', '_orm_'
 )
 
 # main class
@@ -50,17 +51,16 @@ class FixColorSpaceBase:
     bl_options = {'REGISTER', 'UNDO'}
 
     # replace these with the color space names you want to use
-    color_space:str
-    non_color_space:str
+    col_color_space:str
     env_color_space:str
 
     # assign color space based on image texture name
     def set_color_space(self, image:Image):
         """Set the color space of an image based on its name."""
-        image.colorspace_settings.name = self.color_space
+        image.colorspace_settings.name = self.col_color_space
         for keyword in KEYWORDS:
             if keyword in image.name.lower():
-                image.colorspace_settings.name = self.non_color_space
+                image.colorspace_settings.is_data = True
                 break
                    
     # recursively search for image textures
@@ -93,8 +93,7 @@ class FixColorSpace_OT_Filmic(FixColorSpaceBase, Operator):
     bl_idname = "scene.apply_filmic_colorspace"
     bl_label = "Filmic"
 
-    color_space = 'sRGB'
-    non_color_space = 'Non-Color'
+    col_color_space = 'sRGB'
     if bpy.app.version_string < '4.0.0':
         env_color_space = 'Linear'
     else:
@@ -105,8 +104,7 @@ class FixColorSpace_OT_ACES(FixColorSpaceBase, Operator):
     bl_idname = "scene.apply_aces_colorspace"
     bl_label = "ACES"
 
-    color_space = 'Utility - sRGB - Texture'
-    non_color_space = 'Utility - Raw'
+    col_color_space = 'Utility - sRGB - Texture'
     env_color_space = 'Utility - Linear - Rec.709'
 
 # button functionality for OCIO v2 ACES config
@@ -114,8 +112,7 @@ class FixColorSpace_OT_ACESTWO(FixColorSpaceBase, Operator):
     bl_idname = "scene.apply_aces_colorspace_new"
     bl_label = "ACES 2"
 
-    color_space = 'sRGB - Texture'
-    non_color_space = 'Raw'
+    col_color_space = 'sRGB - Texture'
     env_color_space = 'Linear Rec.709 (sRGB)'
 
 # main panel that the user interacts with
