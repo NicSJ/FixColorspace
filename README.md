@@ -1,5 +1,5 @@
 # FixColorSpace
-Blender addon that changes the color space of all material image nodes, including World, based on specific image keywords. Designed to be used with the default color spaces or ACES. Compatible with ACES config files for [OCIO v1](https://github.com/colour-science/OpenColorIO-Configs/tree/feature/aces-1.2-config) or [OCIO v2](https://github.com/AcademySoftwareFoundation/OpenColorIO-Config-ACES). **Not** tested with custom config files, e.g. Blender default merged with an Aces v1 file. Tested with Blender 2.8 to 4.3. 
+Blender addon that changes the color space of all material image nodes, including World, based on specific image keywords. Designed to be used with the default color spaces or ACES. Compatible with ACES config files for [OCIO v1](https://github.com/colour-science/OpenColorIO-Configs/tree/feature/aces-1.2-config) or [OCIO v2](https://github.com/AcademySoftwareFoundation/OpenColorIO-Config-ACES). **Not** tested with custom config files, e.g. Blender default merged with an Aces v1 file. Tested with Blender 2.8 to 4.3. If you using the OCIO v2 configs, I suggest using Blender 3.5.0 or newer.
 
 Extended from the original file posted by **Blender Bob** [Free Color space addon for Blender](https://www.youtube.com/watch?v=73Y_5LrDZQc&t=1s&ab_channel=BlenderBob)
 
