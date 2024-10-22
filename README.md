@@ -1,5 +1,5 @@
 # FixColorSpace
-Blender addon that changes the color space of all material image nodes, including World, based on specific image keywords. Designed to be used with the default color spaces or ACES. Compatible with ACES config files for [OCIO v1](https://github.com/colour-science/OpenColorIO-Configs/tree/feature/aces-1.2-config) or [OCIO v2](https://github.com/AcademySoftwareFoundation/OpenColorIO-Config-ACES). **Not** tested with custom config files, e.g. Blender default merged with an Aces v1 file. Tested with Blender 2.8 to 4.2. 
+Blender addon that changes the color space of all material image nodes, including World, based on specific image keywords. Designed to be used with the default color spaces or ACES. Compatible with ACES config files for [OCIO v1](https://github.com/colour-science/OpenColorIO-Configs/tree/feature/aces-1.2-config) or [OCIO v2](https://github.com/AcademySoftwareFoundation/OpenColorIO-Config-ACES). **Not** tested with custom config files, e.g. Blender default merged with an Aces v1 file. Tested with Blender 2.8 to 4.3. 
 
 Extended from the original file posted by **Blender Bob** [Free Color space addon for Blender](https://www.youtube.com/watch?v=73Y_5LrDZQc&t=1s&ab_channel=BlenderBob)
 
@@ -10,6 +10,7 @@ Extended from the original file posted by **Blender Bob** [Free Color space addo
 | Filmic/AgX | sRGB | Non-Color | Linear (Blender <= 3.6) / Linear Rec.709 (Blender 4.0+) |
 | ACES (OCIO v1) | Utility - sRGB - Texture | Utility - Raw | Utility - Linear - Rec.709 |
 | ACES 2 (OCIO v2) | sRGB - Texture | Raw | Linear Rec.709 (sRGB) |
+| ACES 2 (Config 2.1-2.2) | sRGB Encoded Rec.709 (sRGB) | Raw | Linear Rec.709 (sRGB) |
 
 ## Installation
 Download the latest version from the Releases section. Open Blender -> _Edit -> Preferences -> Add-ons -> Install..._
@@ -46,6 +47,13 @@ start "BLENDER 4.0" "C:\BlenderBuilds\bl_symlink\blender.exe"
 REM ACES v2
 set "OCIO=G:\OpenColorIO-Configs\aces_2\v2\studio-config-v2.0.0_aces-v1.3_ocio-v2.2.ocio"
 start "BLENDER 4.0" "C:\BlenderBuilds\bl_symlink\blender.exe"
+```
+
+```
+REM ACES 2 - Config v2.1 (built into Blender)
+rem set "OCIO=ocio://default"
+set "OCIO=ocio://studio-config-v2.1.0_aces-v1.3_ocio-v2.3"
+start "BLENDER 4.2" "C:\Program Files\Blender Foundation\Blender 4.2\blender.exe"
 ```  
 
 For more information or Mac scripts, check [Blender & ACES 1.2/1.3 OCIO v1](https://www.toodee.de/?page_id=1720)  [Blender & ACES OCIO v2](https://www.toodee.de/?page_id=5517)  
@@ -68,4 +76,4 @@ A: The addon looks for the following keywords in the image file name:
     'curvature', 'curv',
     '\_arm_', '\_orm_'
 
-If a keyword is found, the color space will be changed to a raw/non-color variant. If none are found, the color space will be changed to a variant of sRGB. For variations, refer to Conversion defaults above. Textures from sites such as [Polyhaven](https://polyhaven.com/), or generated with Substance 3D Painter, have the keywords in the file names and should work as expected. If you are naming files manually, be sure to add the appropriate keyword to the file. E.g. Bronze_damaged_normal.png  
+If a keyword is found, the color space will be changed to a raw/non-color variant. Note the 'sss' and 'subsurface' asume the subsurface weight, not the color or radius. If none are found, the color space will be changed to a variant of sRGB. For variations, refer to Conversion defaults above. Textures from sites such as [Polyhaven](https://polyhaven.com/), or generated with Substance 3D Painter, have the keywords in the file names and should work as expected. If you are naming files manually, be sure to add the appropriate keyword to the file. E.g. Bronze_damaged_normal.png  
